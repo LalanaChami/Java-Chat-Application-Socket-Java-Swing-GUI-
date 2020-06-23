@@ -5,11 +5,21 @@
  */
 package chat;
 
+import static chat.chat_server.dout;
+import static chat.chat_server.ss;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 /**
  *
  * @author admin
  */
 public class chat_client extends javax.swing.JFrame {
+    static Socket s;
+     static DataInputStream dis;
+     static DataOutputStream dout;
 
     /**
      * Creates new form chat_client
@@ -50,6 +60,11 @@ public class chat_client extends javax.swing.JFrame {
         });
 
         msg_send.setText("Send");
+        msg_send.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                msg_sendActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Lucida Sans Unicode", 1, 24)); // NOI18N
         jLabel2.setText("CLIENT");
@@ -88,6 +103,19 @@ public class chat_client extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_msg_textActionPerformed
 
+    private void msg_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_sendActionPerformed
+        try{
+        String msg="";
+        msg=msg_text.getText();
+        dout.writeUTF(msg);
+        msg_text.setText("");
+       }
+       catch(Exception e){
+         // handle the exception
+       }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_msg_sendActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -121,6 +149,23 @@ public class chat_client extends javax.swing.JFrame {
                 new chat_client().setVisible(true);
             }
         });
+        
+        
+        try{
+        String msgin="";
+        
+        s = new Socket("127.0.0.1",1201);
+        dis=new DataInputStream(s.getInputStream());
+        dout=new DataOutputStream(s.getOutputStream());
+        
+        while(!msgin.equals("exit")){
+          msgin=dis.readUTF();
+          msg_area.setText(msg_area.getText()+"\n Server:"+msgin);
+        }
+        }
+        catch(Exception e){
+            
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
