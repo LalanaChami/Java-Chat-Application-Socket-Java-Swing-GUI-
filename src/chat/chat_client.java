@@ -9,14 +9,26 @@ import static chat.chat_server.dout;
 import static chat.chat_server.ss;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author admin
  */
 public class chat_client extends javax.swing.JFrame {
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
+    private String message="";
+    private String serverIP;
+    private Socket connection;
+    private int port = 6789;
+    
     static Socket s;
      static DataInputStream dis;
      static DataOutputStream dout;
@@ -24,8 +36,14 @@ public class chat_client extends javax.swing.JFrame {
     /**
      * Creates new form chat_client
      */
-    public chat_client() {
+    public chat_client(String s) {
         initComponents();
+        
+        this.setTitle("Client");
+        this.setVisible(true);
+        status.setVisible(true);
+        serverIP = s;
+        
     }
 
     /**
@@ -43,6 +61,7 @@ public class chat_client extends javax.swing.JFrame {
         msg_text = new javax.swing.JTextField();
         msg_send = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        status = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Lucida Sans Unicode", 1, 24)); // NOI18N
         jLabel1.setText("SERVER");
@@ -69,6 +88,8 @@ public class chat_client extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Lucida Sans Unicode", 1, 24)); // NOI18N
         jLabel2.setText("CLIENT");
 
+        status.setText("...");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -83,17 +104,27 @@ public class chat_client extends javax.swing.JFrame {
                         .addComponent(msg_send, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(msg_send, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                     .addComponent(msg_text)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(32, Short.MAX_VALUE)
+                    .addComponent(status, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(243, Short.MAX_VALUE)))
         );
 
         pack();
@@ -101,66 +132,129 @@ public class chat_client extends javax.swing.JFrame {
 
     private void msg_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_textActionPerformed
         // TODO add your handling code here:
+        sendMessage(msg_text.getText());
+	msg_text.setText("");
     }//GEN-LAST:event_msg_textActionPerformed
 
     private void msg_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_msg_sendActionPerformed
-        try{
-        String msg="";
-        msg=msg_text.getText();
-        dout.writeUTF(msg);
-        msg_text.setText("");
-       }
-       catch(Exception e){
-         // handle the exception
-       }
+        sendMessage(msg_text.getText());
+	msg_text.setText("");
         // TODO add your handling code here:
     }//GEN-LAST:event_msg_sendActionPerformed
 
+    
+    public void startRunning()
+    {
+       try
+       {
+            status.setText("Attempting Connection ...");
+            try
+            {
+                connection = new Socket(InetAddress.getByName(serverIP),port);
+            }catch(IOException ioEception)
+            {
+                    JOptionPane.showMessageDialog(null,"Server Might Be Down!","Warning",JOptionPane.WARNING_MESSAGE);
+            }
+            status.setText("Connected to: " + connection.getInetAddress().getHostName());
+
+
+            output = new ObjectOutputStream(connection.getOutputStream());
+            output.flush();
+            input = new ObjectInputStream(connection.getInputStream());
+
+            whileChatting();
+       }
+       catch(IOException ioException)
+       {
+            ioException.printStackTrace();
+       }
+    }
+    
+    private void whileChatting() throws IOException
+    {
+      msg_text.setEditable(true);
+      do{
+              try
+              {
+                      message = (String) input.readObject();
+                      msg_area.append("\n"+message);
+              }
+              catch(ClassNotFoundException classNotFoundException)
+              {
+              }
+      }while(!message.equals("Client - END"));
+    }
+    private void sendMessage(String message)
+    {
+        try
+        {
+            output.writeObject("Client - " + message);
+            output.flush();
+            msg_area.append("\nClient - "+message);
+        }
+        catch(IOException ioException)
+        {
+            msg_area.append("\n Unable to Send Message");
+        }
+    }
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(chat_client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(chat_client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(chat_client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(chat_client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new chat_client().setVisible(true);
-            }
-        });
-        
-        
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(chat_client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(chat_client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(chat_client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(chat_client.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new chat_client().setVisible(true);
+//            }
+//        });
+//        
+//        chat_client chat = new chat_client();
+//        chat.Client();
+//        
+//       
+//        
+//    }
+    
+    private  void Client(){
         try{
         String msgin="";
+        String msg= "";
         
         s = new Socket("127.0.0.1",1201);
         dis=new DataInputStream(s.getInputStream());
         dout=new DataOutputStream(s.getOutputStream());
+        msg= msg_text.getText();
         
         while(!msgin.equals("exit")){
+          
           msgin=dis.readUTF();
+          
           msg_area.setText(msg_area.getText()+"\n Server:"+msgin);
+          msg_area.setText(msg_area.getText()+"\n Client:"+msg);
+          
         }
         }
         catch(Exception e){
@@ -175,5 +269,6 @@ public class chat_client extends javax.swing.JFrame {
     private static javax.swing.JTextArea msg_area;
     private javax.swing.JButton msg_send;
     private javax.swing.JTextField msg_text;
+    private javax.swing.JLabel status;
     // End of variables declaration//GEN-END:variables
 }
