@@ -15,6 +15,8 @@ public class chat_server extends javax.swing.JFrame {
     private ServerSocket server;
     private int totalClients = 100;
     private int port = 6789;
+    final static String secretKey = "secrete";
+    EncryDecry encyrDecry = new EncryDecry();
   
     public chat_server() {
         
@@ -169,9 +171,15 @@ public class chat_server extends javax.swing.JFrame {
     {
         try
         {
-            output.writeObject("                                                                              Server - " + message);
-            output.flush();
+            
             chatArea.append("\nME(Server) - "+message);
+            String encryptedmsg = encyrDecry.encrypt(message, secretKey);
+            
+            output.writeObject("                                                             (enc):" + encryptedmsg);
+            EncryDecry encyrDecry = new EncryDecry();
+            message = encyrDecry.decrypt(encryptedmsg, secretKey);
+            output.writeObject("                                                             Server(decrypt) - " + message);
+            output.flush();
         }
         catch(IOException ioException)
         {
