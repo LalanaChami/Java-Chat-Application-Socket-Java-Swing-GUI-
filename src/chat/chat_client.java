@@ -54,14 +54,14 @@ public class chat_client extends javax.swing.JFrame {
         jPanel1.setForeground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(null);
 
-        jTextField1.setText("Type your message here...");
+        jTextField1.setToolTipText("text\tType your message here...");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
         jPanel1.add(jTextField1);
-        jTextField1.setBounds(10, 370, 490, 40);
+        jTextField1.setBounds(10, 370, 410, 40);
 
         jButton1.setBackground(new java.awt.Color(204, 204, 255));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -72,7 +72,7 @@ public class chat_client extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton1);
-        jButton1.setBounds(420, 410, 80, 40);
+        jButton1.setBounds(420, 370, 80, 40);
 
         chatArea.setColumns(20);
         chatArea.setRows(5);
@@ -98,18 +98,14 @@ public class chat_client extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 9, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        setSize(new java.awt.Dimension(530, 504));
+        setSize(new java.awt.Dimension(508, 441));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -173,9 +169,9 @@ public class chat_client extends javax.swing.JFrame {
     {
         try
         {
-            output.writeObject("Client - " + message);
+            output.writeObject("                                                                              Client - " + message);
             output.flush();
-            chatArea.append("\nClient - "+message);
+            chatArea.append("\nME(Client) - "+message);
         }
         catch(IOException ioException)
         {

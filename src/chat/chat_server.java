@@ -99,14 +99,13 @@ public class chat_server extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1);
         jScrollPane1.setBounds(10, 90, 480, 250);
 
-        jTextField1.setText("Type Your message here");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
         jPanel1.add(jTextField1);
-        jTextField1.setBounds(10, 350, 480, 40);
+        jTextField1.setBounds(10, 350, 400, 40);
 
         jButton1.setBackground(new java.awt.Color(102, 102, 255));
         jButton1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
@@ -118,7 +117,7 @@ public class chat_server extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton1);
-        jButton1.setBounds(410, 400, 80, 40);
+        jButton1.setBounds(410, 350, 80, 40);
 
         status.setForeground(new java.awt.Color(255, 255, 255));
         status.setText("...");
@@ -141,19 +140,16 @@ public class chat_server extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 9, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(521, 505));
+        setSize(new java.awt.Dimension(500, 427));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -173,9 +169,9 @@ public class chat_server extends javax.swing.JFrame {
     {
         try
         {
-            output.writeObject("Server - " + message);
+            output.writeObject("                                                                              Server - " + message);
             output.flush();
-            chatArea.append("\nServer - "+message);
+            chatArea.append("\nME(Server) - "+message);
         }
         catch(IOException ioException)
         {
