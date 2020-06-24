@@ -50,16 +50,21 @@ public class chat_client extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
+        jPanel1.setBackground(new java.awt.Color(0, 0, 51));
+        jPanel1.setForeground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(null);
 
+        jTextField1.setText("Type your message here...");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
         jPanel1.add(jTextField1);
-        jTextField1.setBounds(10, 360, 310, 40);
+        jTextField1.setBounds(10, 370, 490, 40);
 
+        jButton1.setBackground(new java.awt.Color(204, 204, 255));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton1.setText("Send");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -67,21 +72,22 @@ public class chat_client extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton1);
-        jButton1.setBounds(320, 360, 80, 40);
+        jButton1.setBounds(420, 410, 80, 40);
 
         chatArea.setColumns(20);
         chatArea.setRows(5);
         jScrollPane1.setViewportView(chatArea);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 80, 390, 280);
+        jScrollPane1.setBounds(10, 80, 490, 280);
 
-        jLabel2.setFont(new java.awt.Font("MS PGothic", 1, 48)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(51, 0, 51));
+        jLabel2.setFont(new java.awt.Font("Myriad Pro", 1, 48)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Client");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(10, 10, 180, 40);
+        jLabel2.setBounds(140, 20, 180, 40);
 
+        status.setForeground(new java.awt.Color(255, 255, 255));
         status.setText("...");
         jPanel1.add(status);
         status.setBounds(10, 50, 300, 40);
@@ -93,15 +99,17 @@ public class chat_client extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 9, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(414, 430));
+        setSize(new java.awt.Dimension(530, 504));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
