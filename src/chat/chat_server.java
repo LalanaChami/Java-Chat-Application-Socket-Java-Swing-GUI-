@@ -85,7 +85,11 @@ public class chat_server extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(51, 255, 204));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setForeground(new java.awt.Color(102, 255, 204));
 
+        jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setLayout(null);
 
         chatArea.setColumns(20);
@@ -93,52 +97,63 @@ public class chat_server extends javax.swing.JFrame {
         jScrollPane1.setViewportView(chatArea);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 90, 360, 270);
+        jScrollPane1.setBounds(10, 90, 480, 250);
 
+        jTextField1.setText("Type Your message here");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
         jPanel1.add(jTextField1);
-        jTextField1.setBounds(10, 360, 290, 40);
+        jTextField1.setBounds(10, 350, 480, 40);
 
+        jButton1.setBackground(new java.awt.Color(102, 102, 255));
+        jButton1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jButton1.setText("Send");
+        jButton1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
         jPanel1.add(jButton1);
-        jButton1.setBounds(300, 360, 80, 40);
+        jButton1.setBounds(410, 400, 80, 40);
 
+        status.setForeground(new java.awt.Color(255, 255, 255));
         status.setText("...");
         jPanel1.add(status);
         status.setBounds(10, 60, 300, 40);
 
-        jLabel2.setFont(new java.awt.Font("MS PGothic", 1, 48)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Myriad Pro", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(51, 0, 51));
         jLabel2.setText("Server");
         jLabel2.setToolTipText("");
+        jLabel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(10, 0, 190, 60);
+        jLabel2.setBounds(80, 10, 190, 60);
+
+        jLabel1.setBackground(new java.awt.Color(153, 255, 204));
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 0, 390, 405);
+        jLabel1.setBounds(0, 35, 460, 410);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 9, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(390, 430));
+        setSize(new java.awt.Dimension(521, 505));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
